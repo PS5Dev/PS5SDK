@@ -47,13 +47,14 @@ There is a `kernel_helper` header and CRT support for arbitrary read/write. For 
 ## Dependencies
 
 - CMake (version >= 3.20)
+- Ninja
 - Clang/lld
 
 
 
 ## Build system
 
-This SDK utilizes cmake for it's build system. The toolchain file can be found at [cmake/toolchain-ps5.cmake](./cmake/toolchain-ps5.cmake). If you wish to build a project outside the source tree, ensure to set the `PS5SDK` environment variable to the root path of this repository.
+This SDK utilizes cmake and ninja for it's build system. The toolchain file can be found at [cmake/toolchain-ps5.cmake](./cmake/toolchain-ps5.cmake). If you wish to build a project outside the source tree, ensure to set the `PS5SDK` environment variable to the root path of this repository.
 
 The root [CMakeLists.txt](./CMakeLists.txt) builds the CRT in `/crt` and `/examples` projects. Each example project has it's own build files, which can be referenced or copied to use in your own projects.
 
