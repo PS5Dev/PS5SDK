@@ -36,7 +36,13 @@ struct payload_args
 
 Some examples (such as [pipe_pirate](./examples/pipe_pirate)) are firmware-dependent as they have offsets that are specific to that FW. For these types of projects, ensure the `PS5SDK_FW` environment variable is set. For example, if you're targeting 4.03, `PS5SDK_FW` should be set to `0x403`. Below are currently supported firmwares for kernel hacking:
 
+- 3.00 (`0x300`)
+- 3.20 (`0x320`)
+- 3.21 (`0x321`)
+- 4.02 (`0x402`)
 - 4.03 (`0x403`)
+- 4.50 (`0x450`)
+- 4.51 (`0x451`)
 
 Offsets that are common such as ones used by examples are in [/ps5/kernel_offsets](./ps5/kernel_offsets).
 
