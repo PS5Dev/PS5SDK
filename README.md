@@ -89,7 +89,9 @@ PS5SDK_FW=[target FW]
 ```
 
 ### VSCode
-Ensure ninja is available on your system and can be found in your PATH. Once you open the project, it should prompt to configure cmake. Alternatively, go to the "CMake" tab and "Configure All Projects" + "Build All Projects"
+1. Ensure ninja is available on your system and can be found in your PATH.
+2. You may need to update `CMakePresets.json`'s `toolchainFile` path to `[PS5 SDK root]/cmake/toolchain-ps5.cmake`, particularly if building outside the source tree.
+3. Once you open the project, it should prompt to configure cmake. Alternatively, go to the "CMake" tab and "Configure All Projects" + "Build All Projects"
 
 
 

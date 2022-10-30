@@ -7,3 +7,7 @@ cmake_install.cmake
 build.ninja
 CMakeCache.txt
 CMakeFiles/
+.cmake/
+.idea/
+Testing/
+build/
