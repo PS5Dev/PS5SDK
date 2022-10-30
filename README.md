@@ -77,7 +77,7 @@ $ ninja
 ```
 
 ### Clion IDE
-1. Go to __F__ile -> Settings -> Build, Execution, Deployment -> CMake
+1. Go to File -> Settings -> Build, Execution, Deployment -> CMake
 2. Set "CMake options":
 ```
 -G Ninja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_TOOLCHAIN_FILE=[PS5 SDK root]/cmake/toolchain-ps5.cmake .
@@ -88,8 +88,8 @@ PS5SDK=[PS5 SDK root]
 PS5SDK_FW=[target FW]
 ```
 
-### VS/VSCode
-TODO.
+### VSCode
+Ensure ninja is available on your system and can be found in your PATH. Once you open the project, it should prompt to configure cmake. Alternatively, go to the "CMake" tab and "Configure All Projects" + "Build All Projects"
 
 
 
