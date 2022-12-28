@@ -18,7 +18,7 @@ extern int libkernel_init();
 
 void __ps5sdk_crt_start(struct payload_args *args)
 {
-	int rv;
+	int rv = ERR_CRT_UNKNOWN;
 
 	// Dlsym must be initialized first to resolve everything else
 	init_dlsym(args->dlsym);

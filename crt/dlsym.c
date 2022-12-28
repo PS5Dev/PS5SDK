@@ -21,7 +21,7 @@ void init_dlsym(dlsym_t *f_dlsym)
 // Called by macros
 uint64_t dynlib_resolve_symbol(int module, const char *symbol)
 {
-	uint64_t addr;
+	uint64_t addr = 0;
 	__dlsym(module, symbol, &addr);
 	return addr;
 }
