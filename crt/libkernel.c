@@ -334,6 +334,7 @@ _Fn_(uint64_t   , setpriority,                      void);
 _Fn_(int        , setregid,                         gid_t, gid_t);
 _Fn_(int        , setreuid,                         uid_t, uid_t);
 _Fn_(uint64_t   , setrlimit,                        void);
+_Fn_(pid_t      , setsid,                           void);
 _Fn_(uint64_t   , setsockopt,                       void);
 _Fn_(uint64_t   , settimeofday,                     void);
 _Fn_(int        , setuid,                           uid_t);
@@ -484,6 +485,7 @@ int libkernel_init()
 	DYNLIB_RESOLVE(M_libkernel, fchmod);
 	DYNLIB_RESOLVE(M_libkernel, fcntl);
 	DYNLIB_RESOLVE(M_libkernel, flock);
+	DYNLIB_RESOLVE(M_libkernel, fork); // only available with libkernel_sys
 	DYNLIB_RESOLVE(M_libkernel, fstat);
 	DYNLIB_RESOLVE(M_libkernel, fsync);
 	DYNLIB_RESOLVE(M_libkernel, fdatasync);
@@ -1394,6 +1396,7 @@ int libkernel_init()
 	DYNLIB_RESOLVE(M_libkernel, setregid);
 	DYNLIB_RESOLVE(M_libkernel, setreuid);
 	DYNLIB_RESOLVE(M_libkernel, setrlimit);
+	DYNLIB_RESOLVE(M_libkernel, setsid);  // only available with libkernel_sys
 	DYNLIB_RESOLVE(M_libkernel, setsockopt);
 	DYNLIB_RESOLVE(M_libkernel, settimeofday);
 	DYNLIB_RESOLVE(M_libkernel, setuid);
