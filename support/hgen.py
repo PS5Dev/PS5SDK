@@ -89,7 +89,7 @@ def prototypes(inc_dir, args=None):
 
 def symbols(filename):
     '''
-    yield symbol names in PT_DYNAMIC segments using the NID lookup table
+    yield pairs of (sym_name, sym_type) in PT_DYNAMIC segments using the NID lookup table
     "nid_db.xml".
     '''
     with open(filename, 'rb') as f:
@@ -100,11 +100,15 @@ def symbols(filename):
                 continue
 
             for sym in segment.iter_symbols():
-                nid = sym.name[:11]
-                if nid in nid_map:
-                    yield nid_map[nid]
-                elif nid:
+                sym_nid = sym.name[:11]
+                if not sym_nid in nid_map:
                     logger.warning(f'skipping unknown NID {sym.name}')
+                    continue
+                
+                sym_type = sym.entry['st_info']['type']
+                sym_name = nid_map[sym_nid]
+
+                yield sym_name, sym_type
 
 
 if __name__ == '__main__':
@@ -113,16 +117,20 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--prx', required=True)
     parser.add_argument('--inc-dir', required=True)
-    args = parser.parse_args()
+    parser.add_argument('--skip-untyped', action='store_true')
+    
+    cli_args = parser.parse_args()
 
     protos = {name: (ret, args)
-              for ret, name, args in prototypes(args.inc_dir)}
+              for ret, name, args in prototypes(cli_args.inc_dir)}
 
-    for sym in sorted(symbols(args.prx)):
-        if sym in protos:
-            ret, args = protos[sym]
-            print(f'_Fn_({ret}, {sym}, {args});')
-        else:
-            # FIXME: is it a function or a global variable?
-            print(f'_Fn_(long, {sym});')
+    for sym_name, sym_type in sorted(symbols(cli_args.prx)):
+        if sym_name in protos:
+            ret, args = protos[sym_name]
+            print(f'_Fn_({ret}, {sym_name}, {args});')
+            
+        elif sym_type == 'STT_FUNC' and not cli_args.skip_untyped:
+            print(f'_Fn_(long, {sym_name});')
         
+#        elif sym_type == 'STT_OBJECT':
+#            print(f'_Data_(long, {sym_name});')
