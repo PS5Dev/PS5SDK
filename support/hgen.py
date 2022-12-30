@@ -124,7 +124,7 @@ if __name__ == '__main__':
     protos = {name: (ret, args)
               for ret, name, args in prototypes(cli_args.inc_dir)}
 
-    for sym_name, sym_type in sorted(symbols(cli_args.prx)):
+    for sym_name, sym_type in sorted(set(symbols(cli_args.prx))):
         if sym_name in protos:
             ret, args = protos[sym_name]
             print(f'_Fn_({ret}, {sym_name}, {args});')
