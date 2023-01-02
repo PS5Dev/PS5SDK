@@ -47,5 +47,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -nostdinc++ ")
 
 set(CMAKE_ASM_FLAGS "--target=x86_64-freebsd-pc-elf -nostdlib -fPIC")
 
+set(CMAKE_C_STANDARD_LIBRARIES "-lps5sdk_crt")
+set(CMAKE_CXX_STANDARD_LIBRARIES "${CMAKE_C_STANDARD_LIBRARIES}")
 #-DCMAKE_LINKER=/path/to/linker -DCMAKE_CXX_LINK_EXECUTABLE="<CMAKE_LINKER> <FLAGS> <CMAKE_CXX_LINK_FLAGS> <LINK_FLAGS> <OBJECTS> -o <TARGET> <LINK_LIBRARIES>"
-set(CMAKE_EXE_LINKER_FLAGS "-fuse-ld=lld -Xlinker -T ${CMAKE_CURRENT_SOURCE_DIR}/linker.x -Wl,--build-id=none")
+set(CMAKE_EXE_LINKER_FLAGS "-L ${D_PS5SDK}/lib -fuse-ld=lld -Xlinker -T ${D_PS5SDK}/linker.x -Wl,--build-id=none")
+
