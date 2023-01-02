@@ -70,61 +70,63 @@ class CursorWalker:
         yield ret, name, args
 
 
-def prototypes(inc_dir, args=None):
+def prototypes(*inc_dirs, args=None):
     '''
     yield function prototypes from files found in a given include dir.
     '''
     args = args or list()
-    args += [f'-I{inc_dir}', '-nostdinc', '-fno-builtin', '-nostdlib']
+    args += [f'-nostdinc', '-fno-builtin', '-nostdlib']
+    args += [f'-I{inc_dir}' for inc_dir in inc_dirs]
     
-    for path in Path(inc_dir).rglob('*.h'):
-        try:
-            index = clang.cindex.Index.create()
-            tu = index.parse(str(path), args=args)
-            w = CursorWalker()
-            yield from w.accept(tu.cursor)
-        except:
-            pass
+    for inc_dir in inc_dirs:
+        for path in Path(inc_dir).rglob('*.h'):
+            try:
+                index = clang.cindex.Index.create()
+                tu = index.parse(str(path), args=args)
+                w = CursorWalker()
+                yield from w.accept(tu.cursor)
+            except:
+                pass
 
 
-def symbols(filename):
+def symbols(*filenames):
     '''
     yield pairs of (sym_name, sym_type) in PT_DYNAMIC segments using the NID lookup table
     "nid_db.xml".
     '''
-    with open(filename, 'rb') as f:
-        elf = ELFFile(f)
+    for filename in filenames:
+        with open(filename, 'rb') as f:
+            elf = ELFFile(f)
 
-        for segment in elf.iter_segments():
-            if segment.header.p_type != 'PT_DYNAMIC':
-                continue
-
-            for sym in segment.iter_symbols():
-                sym_nid = sym.name[:11]
-                if not sym_nid in nid_map:
-                    logger.warning(f'skipping unknown NID {sym.name}')
+            for segment in elf.iter_segments():
+                if segment.header.p_type != 'PT_DYNAMIC':
                     continue
-                
-                sym_type = sym.entry['st_info']['type']
-                sym_name = nid_map[sym_nid]
 
-                yield sym_name, sym_type
+                for sym in segment.iter_symbols():
+                    sym_nid = sym.name[:11]
+                    if not sym_nid in nid_map:
+                        logger.warning(f'skipping unknown NID {sym.name}')
+                        continue
+                
+                    sym_type = sym.entry['st_info']['type']
+                    sym_name = nid_map[sym_nid]
+
+                    yield sym_name, sym_type
 
 
 if __name__ == '__main__':
     logging.basicConfig()
     
     parser = argparse.ArgumentParser()
-    parser.add_argument('--prx', required=True)
-    parser.add_argument('--inc-dir', required=True)
+    parser.add_argument('--prx', action='append', required=True)
+    parser.add_argument('--inc-dir', action='append', required=True)
     parser.add_argument('--skip-untyped', action='store_true')
     
     cli_args = parser.parse_args()
 
     protos = {name: (ret, args)
-              for ret, name, args in prototypes(cli_args.inc_dir)}
-
-    for sym_name, sym_type in sorted(set(symbols(cli_args.prx))):
+              for ret, name, args in prototypes(*cli_args.inc_dir)}
+    for sym_name, sym_type in sorted(set(symbols(*cli_args.prx))):
         if sym_name in protos:
             ret, args = protos[sym_name]
             print(f'_Fn_({ret}, {sym_name}, {args});')
