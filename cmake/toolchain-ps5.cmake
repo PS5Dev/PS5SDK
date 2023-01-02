@@ -36,7 +36,7 @@ set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)# Search for programs in the build h
 set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)	# For libraries and headers in the target directories
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 
-set(CMAKE_C_FLAGS "--target=x86_64-freebsd-pc-elf -O0 -DPPR -DPS5 -DPS5_FW_VERSION=${V_FW} ") # -D_KERNEL=1 x86_64-scei-ps5-elf
+set(CMAKE_C_FLAGS "--target=x86_64-freebsd-pc-elf -O0 -D__PROSPERO__ -DPPR -DPS5 -DPS5_FW_VERSION=${V_FW} ") # -D_KERNEL=1 x86_64-scei-ps5-elf
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D_POSIX_SOURCE -D_POSIX_C_SOURCE=200112 -D__BSD_VISIBLE=1 -D__XSI_VISIBLE=500")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-builtin -nostdlib -Wall -m64") #  -nostartfiles
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mfsgsbase -maes -mavx2 -mbmi -march=znver2")
