@@ -38,9 +38,10 @@ set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 
 set(CMAKE_C_FLAGS "--target=x86_64-freebsd-pc-elf -O0 -D__PROSPERO__ -DPPR -DPS5 -DPS5_FW_VERSION=${V_FW} ") # -D_KERNEL=1 x86_64-scei-ps5-elf
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D_POSIX_SOURCE -D_POSIX_C_SOURCE=200112 -D__BSD_VISIBLE=1 -D__XSI_VISIBLE=500")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-builtin -nostdlib -Wall -m64") #  -nostartfiles
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -nostdlib -m64") #  -nostartfiles
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mfsgsbase -maes -mavx2 -mbmi -march=znver2")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-omit-frame-pointer -fPIC -mcmodel=small -nostdinc -nodefaultlibs")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-omit-frame-pointer -fPIC -mcmodel=small")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -isysroot ${D_PS5SDK} -isystem ${D_PS5SDK} -isystem ${D_PS5SDK}/include")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -nostdinc++ ")
 
