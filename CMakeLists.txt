@@ -35,6 +35,7 @@ add_subdirectory("crt")
 add_subdirectory("examples/hello_socket")
 add_subdirectory("examples/klog_server")
 add_subdirectory("examples/pipe_pirate")
+add_subdirectory("examples/elf_loader_issue")
 
 MACRO(SUBDIRLIST result curdir)
 	FILE(GLOB children RELATIVE ${curdir} ${curdir}/*)
