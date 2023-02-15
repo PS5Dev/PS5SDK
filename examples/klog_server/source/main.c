@@ -87,14 +87,15 @@ void run_kernel_log_server(int port)
 	}
 }
 
+extern void *fptr__read;
+
 int payload_main(struct payload_args *args)
 {
 	int mainPID;
 	uint64_t temp_addr;
 
 	// Fork must be resolved manually, dlsym refuses to resolve it
-	__dlsym(0x2001, "_read", &temp_addr);
-	void (*fptr_fork)() = (void (*)())(temp_addr + OFFSET_FORK_FROM_READ);
+    void (*fptr_fork)() = (void (*)())(fptr__read + OFFSET_FORK_FROM_READ);
 
 	// Fork so we can keep a klog server outside the browser process
 	mainPID = getpid();
