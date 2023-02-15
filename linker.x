@@ -32,20 +32,20 @@ SECTIONS
 	} : ph_text = 0x90909090
 
 	.rodata :
-    {
-        *(.rodata .rodata.*)
-    }
+	{
+		*(.rodata .rodata.*)
+	}
 
-    .eh_frame :
-    {
-        *(.eh_frame.*)
-    }
+	.eh_frame :
+	{
+ 		*(.eh_frame.*)
+	}
 
 	. = ALIGN(0x4000);
 
 	.data.rel.ro :
 	{
-	    *(.data.rel.ro .data.rel.ro.*)
+		*(.data.rel.ro .data.rel.ro.*)
 	} : ph_relro
 
 	.rela :
@@ -81,22 +81,22 @@ SECTIONS
 	} : ph_data
 
 	.dynamic :
-    {
-        *(.dynamic)
-    } : ph_dyn
+	{
+		*(.dynamic)
+	} : ph_dyn
 
 	.dynstr :
 	{
-	    *(.dynstr)
+		*(.dynstr)
 	}
 
 	.dynsym :
 	{
-	    *(.dynsym)
+		*(.dynsym)
 	}
 
 	.rela.dyn :
 	{
-	    *(.rela.dyn)
+		*(.rela.dyn)
 	}
 }
