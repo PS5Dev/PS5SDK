@@ -1435,8 +1435,8 @@ int libkernel_init()
 //    DYNLIB_RESOLVE(M_libkernel, sceKernelReserve2mbPage);
 //    DYNLIB_RESOLVE(M_libkernel, sysarch);
 //    DYNLIB_RESOLVE(M_libkernel, sysconf);
-//    DYNLIB_RESOLVE(M_libkernel, sysctl);
-//    DYNLIB_RESOLVE(M_libkernel, sysctlbyname);
+	DYNLIB_RESOLVE(M_libkernel, sysctl);
+	DYNLIB_RESOLVE(M_libkernel, sysctlbyname);
 //    DYNLIB_RESOLVE(M_libkernel, sysctlnametomib);
 //    DYNLIB_RESOLVE(M_libkernel, system);
 //    DYNLIB_RESOLVE(M_libkernel, tcdrain);

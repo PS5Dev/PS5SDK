@@ -14,6 +14,7 @@
 #define _SELECT_DECLARED
 
 #include <ps5/dlsym.h>
+#include <sys/stat.h>
 
 #define __DLSYM_MODULE_ID_LIBKERNEL 0x2001
 
@@ -92,13 +93,13 @@ _Fn_(uint64_t   , _execvpe,                             void);
 _Fn_(void       , _exit,                                int);
 _Fn_(uint64_t   , _fcntl,                               void);
 _Fn_(uint64_t   , _fpathconf,                           void);
-_Fn_(uint64_t   , _fstat,                               void);
+_Fn_(uint64_t   , _fstat,                               int fd, struct stat *buf);
 _Fn_(uint64_t   , _fstatfs,                             void);
 _Fn_(uint64_t   , _getdirentries,                       void);
 _Fn_(uint64_t   , _getpeername,                         void);
 _Fn_(uint64_t   , _getsockname,                         void);
 _Fn_(uint64_t   , _getsockopt,                          void);
-_Fn_(uint64_t   , _ioctl,                               void);
+_Fn_(uint64_t   , _ioctl,                               int fd, unsigned long req, unsigned long data);
 _Fn_(uint64_t   , _is_signal_return,                    void);
 _Fn_(uint64_t   , _listen,                              void);
 _Fn_(uint64_t   , _openat,                              void);
@@ -757,7 +758,7 @@ _Fn_(uint64_t   , sceKernelReserve2mbPage,                      void);
 _Fn_(uint64_t   , sysarch,                                      void);
 _Fn_(long       , sysconf,                                      int);
 _Fn_(uint64_t   , sysctl,                                       void);
-_Fn_(uint64_t   , sysctlbyname,                                 void);
+_Fn_(int        , sysctlbyname,                                 char *, void *, size_t *, void *, size_t);
 _Fn_(uint64_t   , sysctlnametomib,                              void);
 _Fn_(int        , system,                                       const char *);
 _Fn_(uint64_t   , tcdrain,                                      void);
@@ -773,7 +774,7 @@ _Fn_(uint64_t   , tcsetsid,                                     void);
 _Fn_(int        , truncate,                                     const char *, off_t);
 _Fn_(int        , unlink,                                       const char *);
 _Fn_(int        , usleep,                                       useconds_t);
-_Fn_(uint64_t   , utimes,                                       void);
+//_Fn_(uint64_t   , utimes,                                       void);
 _Fn_(uint64_t   , uuidgen,                                      void);
 _Fn_(uint64_t   , wait,                                         void);
 _Fn_(uint64_t   , wait3,                                        void);
