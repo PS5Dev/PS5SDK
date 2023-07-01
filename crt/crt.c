@@ -42,3 +42,7 @@ void __ps5sdk_crt_start(struct payload_args *args)
 out:
 	*(int *)args->payloadout = rv;
 }
+
+void __attribute__((naked)) _start(void) {
+	asm volatile("jmp __ps5sdk_crt_start\n");
+}

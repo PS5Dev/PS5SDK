@@ -33,8 +33,11 @@ include_directories	(SYSTEM "${D_PS5SDK}/include")
 add_subdirectory("crt")
 
 add_subdirectory("examples/hello_socket")
-add_subdirectory("examples/klog_server")
 add_subdirectory("examples/pipe_pirate")
+
+if (DEFINED V_FW AND ${V_FW} STREQUAL "0x403")
+	add_subdirectory("examples/klog_server")
+endif()
 
 MACRO(SUBDIRLIST result curdir)
 	FILE(GLOB children RELATIVE ${curdir} ${curdir}/*)
