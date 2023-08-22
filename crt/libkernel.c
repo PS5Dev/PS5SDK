@@ -1466,7 +1466,7 @@ int libkernel_init()
 //    DYNLIB_RESOLVE(M_libkernel, environ);
 //    DYNLIB_RESOLVE(M_libkernel, sigcode_addr);
 //
-//    DYNLIB_RESOLVE(M_libkernel, __error);
+	DYNLIB_RESOLVE(M_libkernel, __error);
 
 	return 0;
 }
