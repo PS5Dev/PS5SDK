@@ -15,6 +15,7 @@
 #define OFFSET_KERNEL_UCRED_CR_RUID         0x08
 #define OFFSET_KERNEL_UCRED_CR_SVUID        0x0C
 #define OFFSET_KERNEL_UCRED_CR_RGID         0x14
+#define OFFSET_KERNEL_UCRED_CR_SVGID        0x18
 
 // Offsets from kernel .data base
 #define OFFSET_KERNEL_DATA_BASE_ALLPROC     0x276DC58

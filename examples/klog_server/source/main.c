@@ -13,7 +13,8 @@
 #if PS5_FW_VERSION == 0x403
 #define OFFSET_FORK_FROM_READ 0x1DE0
 #else
-#error Klog server does not support this firmware, must be updated to be able to find fork().
+#define OFFSET_FORK_FROM_READ 0x0
+#warning Klog server does not support this firmware, must be updated to be able to find fork().
 #endif
 
 // Ran in child process

@@ -21,6 +21,13 @@
 typedef void *ScePthread;
 typedef void *ScePthreadAttr;
 
+struct OrbisKernelSwVersion {
+    uint64_t pad0;
+    char version_str[0x1C];
+    uint32_t version;
+    uint64_t pad1;
+};
+
 int libkernel_init();
 
 // ==================================================
@@ -333,7 +340,7 @@ _Fn_(uint64_t   , sceKernelGetProcessTimeCounter,               void);
 _Fn_(uint64_t   , sceKernelGetProcessTimeCounterFrequency,      void);
 _Fn_(uint64_t   , sceKernelGetProductCode,                      void);
 _Fn_(uint64_t   , sceKernelGetProductStr,                       void);
-_Fn_(uint64_t   , sceKernelGetProsperoSystemSwVersion,          void);
+_Fn_(uint64_t   , sceKernelGetProsperoSystemSwVersion,          struct OrbisKernelSwVersion *);
 _Fn_(uint64_t   , sceKernelGetPrtAperture,                      void);
 _Fn_(uint64_t   , sceKernelGetPs4SystemSwVersion,               void);
 _Fn_(uint64_t   , sceKernelGetPsmIntdevModeForRcmgr,            void);
@@ -358,7 +365,7 @@ _Fn_(uint64_t   , sceKernelGetSubsysId,                         void);
 _Fn_(uint64_t   , sceKernelGetSubsysSubId,                      void);
 _Fn_(uint64_t   , sceKernelGetSystemLevelDebuggerModeForRcmgr,  void);
 _Fn_(uint64_t   , sceKernelGetSystemSwBeta,                     void);
-_Fn_(uint64_t   , sceKernelGetSystemSwVersion,                  void);
+_Fn_(uint64_t   , sceKernelGetSystemSwVersion,                  struct OrbisKernelSwVersion*);
 _Fn_(uint64_t   , sceKernelGetThreadName,                       void);
 _Fn_(uint64_t   , sceKernelGetToolMemoryRange,                  void);
 _Fn_(uint64_t   , sceKernelGetTraceMemoryStats,                 void);
