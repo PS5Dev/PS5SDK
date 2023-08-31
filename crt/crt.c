@@ -15,6 +15,8 @@
 extern int payload_main(struct payload_args *args);
 extern int libc_init();
 extern int libkernel_init();
+extern int syscall_init();
+
 
 void __ps5sdk_crt_start(struct payload_args *args)
 {
