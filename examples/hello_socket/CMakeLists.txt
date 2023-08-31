@@ -4,7 +4,7 @@
 # @author Specter
 ###################################################################################################
 
-cmake_minimum_required (VERSION 3.20)
+cmake_minimum_required (VERSION 3.16)
 
 set(basename "hello_socket")
 project(${basename} C CXX ASM)
