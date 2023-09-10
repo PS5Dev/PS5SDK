@@ -4,7 +4,7 @@
 # @authors Specter
 ###################################################################################################
 
-cmake_minimum_required (VERSION 3.20)
+cmake_minimum_required (VERSION 3.16)
 
 set(basename "nand_group_dumper")
 project(${basename} C CXX ASM)

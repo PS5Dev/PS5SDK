@@ -3,7 +3,7 @@
 # @author Znullptr
 ###################################################################################################
 
-cmake_minimum_required (VERSION 3.20)
+cmake_minimum_required (VERSION 3.16)
 
 set(basename "ps5sdk_crt")
 project(${basename} C CXX ASM)
