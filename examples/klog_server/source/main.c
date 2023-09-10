@@ -14,7 +14,7 @@
 #define OFFSET_FORK_FROM_READ 0x1DE0
 #else
 #define OFFSET_FORK_FROM_READ 0x0
-#warning Klog server does not support this firmware, must be updated to be able to find fork().
+#pragma GCC error "Klog server does not support this firmware, must be updated to be able to find fork()."
 #endif
 
 // Ran in child process
@@ -22,7 +22,7 @@ void run_kernel_log_server(int port)
 {
 	// Establish a server
 	int client = 0;
-	int s;
+	int s = 0;
 
 	s = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -92,8 +92,7 @@ extern void *fptr__read;
 
 int payload_main(struct payload_args *args)
 {
-	int mainPID;
-	uint64_t temp_addr;
+	int mainPID = 0;
 
 	// Fork must be resolved manually, dlsym refuses to resolve it
 	void (*fptr_fork)() = (void (*)())(fptr__read + OFFSET_FORK_FROM_READ);

@@ -106,7 +106,7 @@ _Fn_(uint64_t   , _getdirentries,                       void);
 _Fn_(uint64_t   , _getpeername,                         void);
 _Fn_(uint64_t   , _getsockname,                         void);
 _Fn_(uint64_t   , _getsockopt,                          void);
-_Fn_(uint64_t   , _ioctl,                               int fd, unsigned long req, unsigned long data);
+_Fn_(uint64_t   , _ioctl,                               int fd, unsigned long req, void *data);
 _Fn_(uint64_t   , _is_signal_return,                    void);
 _Fn_(uint64_t   , _listen,                              void);
 _Fn_(uint64_t   , _openat,                              void);

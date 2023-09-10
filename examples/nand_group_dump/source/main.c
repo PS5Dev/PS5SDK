@@ -29,40 +29,36 @@ struct ioctl_readnandgroup_args
     uint64_t size;
 };
 
-void sock_print(int sock, char *str)
+void sock_print(const int sock, const char *str)
 {
-	size_t size;
-
 #if ENABLE_LOGS
+	size_t size = 0;
 	size = strlen(str);
+	if ( !size || !sock )
+		return;
 	_write(sock, str, size);
 #endif
 }
 
 int payload_main(struct payload_args *args)
 {
-    int ret;
-    int sock;
-    int out_fds[3];
-    int a53_fd;
-    int pupupdate_fd;
-    int zero;
-    int written_bytes;
-    char printbuf[128];
-    struct sockaddr_in addr;
-    struct OrbisKernelSwVersion version;
-    void *out_data;
-    uint64_t nand_size;
-    uint64_t kdata_base;
-    pid_t pid;
-
-    zero         = 0;
-    a53_fd       = -1;
-    pupupdate_fd = -1;
-    out_data     = NULL;
-    kdata_base   = args->kdata_base_addr;
+    int ret = 0;
+    int sock = 0;
+    int out_fds[3] = {0};
+    int a53_fd = -1;
+    int pupupdate_fd = -1;
+    int zero = 0;
+    int written_bytes = 0;
+    char printbuf[128] = {0};
+    struct OrbisKernelSwVersion version = {};
+    void *out_data = NULL;
+    uint64_t nand_size = 0;
+    uint64_t kdata_base = 0;
+    pid_t pid = 0;
+    kdata_base = args->kdata_base_addr;
 
 #if ENABLE_LOGS
+    struct sockaddr_in addr = {};
     sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock < 0) {
         return -1;
@@ -248,11 +244,11 @@ int payload_main(struct payload_args *args)
 
     // Max 3 NAND groups
     for (int i = 0; i < 3; i++) {
-        memset(out_data, 0, 0x4000000);
+        (void)memset(out_data, 0, 0x4000000);
 
         struct ioctl_readnandgroup_args ioc_args = {};
         ioc_args.group_id = i;
-        ioc_args.p_out = out_data;
+        ioc_args.p_out = (uint64_t)out_data;
 
         // NAND groups have different sizes:
         // group 0 is 0x4000000
