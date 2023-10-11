@@ -1,0 +1,42 @@
+name: CMake
+
+on: [ push, pull_request ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup environment
+      run: |
+        echo "PS5SDK=$(pwd)" >> $GITHUB_ENV
+        sudo apt install ninja-build
+        echo "llvm_ver=16.0" >> $GITHUB_ENV
+
+    - name: Cache LLVM and Clang (${{ env.llvm_ver }})
+      id: cache-llvm
+      uses: actions/cache@v3
+      with:
+        path: ${{ runner.tool_cache }}/llvm-${{ env.llvm_ver }}
+        key: llvm1-${{ env.llvm_ver }}
+
+    - name: Install LLVM and Clang (${{ env.llvm_ver }})
+      uses: KyleMayes/install-llvm-action@master
+      with:
+        version: ${{ env.llvm_ver }}
+        directory: ${{ runner.tool_cache }}/llvm-${{ env.llvm_ver }}
+        cached: ${{ steps.cache-llvm.outputs.cache-hit }}
+
+    - name: Show Clang version
+      run: clang -v
+
+    - name: Build SDK
+      run: bash ./build.sh
+
+    - name: Upload sample elf
+      uses: actions/upload-artifact@v3
+      with:
+        name: samples
+        path: ${{ github.workspace }}/**/*.elf

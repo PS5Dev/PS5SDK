@@ -1,6 +1,7 @@
 # PS5 SDK
 
 [![Release State](https://img.shields.io/badge/release%20state-beta-yellow.svg)](https://github.com/PS5Dev/PS5SDK) [![Platforms](https://img.shields.io/badge/platform-linux%20%7C%20windows%20%7C%20macos-lightgrey)](https://github.com/PS5Dev/PS5SDK)
+[![CMake](../../actions/workflows/cmake.yml/badge.svg)](../../actions/workflows/cmake.yml)
 
 **Note: As this SDK is a work-in-progress, it's subject to major changes between releases until it approaches a stable version (1.0).**
 
