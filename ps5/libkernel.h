@@ -522,7 +522,13 @@ _Fn_(uint64_t   , sceKernelResumeDirectMemoryRelease,           void);
 _Fn_(uint64_t   , sceKernelRmdir,                               void);
 _Fn_(uint64_t   , sceKernelRtldControl,                         void);
 _Fn_(uint64_t   , sceKernelSandboxPath,                         void);
-_Fn_(uint64_t   , sceKernelSendNotificationRequest,             void);
+
+typedef struct notify_request {
+  char useless1[45];
+  char message[3075];
+} notify_request_t;
+
+_Fn_(uint64_t   , sceKernelSendNotificationRequest,             int, notify_request_t *, size_t, int);
 _Fn_(uint64_t   , sceKernelSetAppInfo,                          void);
 _Fn_(uint64_t   , sceKernelSetAppLibcData,                      void);
 _Fn_(uint64_t   , sceKernelSetBackupRestoreMode,                void);
